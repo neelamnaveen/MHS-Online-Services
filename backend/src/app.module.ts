@@ -5,10 +5,11 @@ import { UserModule } from './user/user.module';
 import { ServiceModule } from './service/service.module';
 import { AuthModule } from './auth/auth.module';
 import { MongooseModule } from '@nestjs/mongoose';
+require('dotenv').config()
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost/nest'),
+    MongooseModule.forRoot(process.env.DATABASE_URI),
     UserModule,
     ServiceModule,
     AuthModule,

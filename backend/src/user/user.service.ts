@@ -17,7 +17,7 @@ export class UserService {
     }
 
     async login(userReq: CreateUserDto): Promise<boolean> {
-        const user = await this.userModel.findOne({ userReq.email }).exec();
+        const user = await this.getUserByEmail(userReq.email);
         if (!user) {
             return false;
         }

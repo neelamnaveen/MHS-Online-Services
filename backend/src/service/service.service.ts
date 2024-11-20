@@ -7,7 +7,7 @@ import { CreateServiceDto, UpdateServiceDto } from '../dto/service.dto';
 
 @Injectable()
 export class ServiceService {
-    constructor(@InjectModel(Service.name) private serviceModel: Model<Service>) {}
+    constructor(@InjectModel("Service") private serviceModel: Model<Service>) {}
 
     async addService(createServiceDto: CreateServiceDto): Promise<Service> {
         const createdService = new this.serviceModel(createServiceDto);
