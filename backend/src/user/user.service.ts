@@ -16,12 +16,16 @@ export class UserService {
         return createdUser.save();
     }
 
-    async login(userReq: CreateUserDto): Promise<boolean> {
+    async login(userReq: CreateUserDto): Promise<User> {
         const user = await this.getUserByEmail(userReq.email);
         if (!user) {
-            return false;
+            return null;
         }
-        return bcrypt.compare(userReq.password, user.password);
+        const isPasswordValid = await bcrypt.compare(userReq.password, user.password);
+
+        if(!isPasswordValid) return null
+    
+        return user
     }
 
     async getUserByEmail(email: string): Promise<User> {
