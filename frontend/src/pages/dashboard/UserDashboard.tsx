@@ -13,13 +13,12 @@ import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded';
 import Add from '@mui/icons-material/Add';
 
 import Sidebar from './components/Sidebar';
-import ServiceTable from './components/ServiceTable';
-import ServiceList from './components/ServiceList';
 import Header from './components/Header';
 import { useNavigate } from 'react-router-dom';
+import TicketCreationForm from './components/TicketCreationForm';
 
 
-export default function Dashboard() {
+export default function UserDashboard() {
   const navigate = useNavigate()
   return (
     <CssVarsProvider disableTransitionOnChange>
@@ -66,7 +65,7 @@ export default function Dashboard() {
               </Typography>
             </Breadcrumbs>
           </Box>
-          <Box
+          {/* <Box
             sx={{
               display: 'flex',
               mb: 1,
@@ -89,8 +88,8 @@ export default function Dashboard() {
               Add New Service
             </Button>
           </Box>
-          <ServiceTable />
-          <ServiceList />
+          <ServiceList /> */}
+          <TicketCreationForm />
         </Box>
       </Box>
     </CssVarsProvider>

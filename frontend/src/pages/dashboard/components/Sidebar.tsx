@@ -339,11 +339,11 @@ export default function Sidebar() {
         <Avatar
           variant="outlined"
           size="sm"
-          src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
+          src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fdenaveen?auto=format&fit=crop&w=286"
         />
         <Box sx={{ minWidth: 0, flex: 1 }}>
-          <Typography level="title-sm">{user.name}</Typography>
-          <Typography level="body-xs">Platform ID: {user.platformId}</Typography>
+          <Typography level="title-sm">Hi {user.name}</Typography>
+          {/* <Typography level="body-xs">Hi {user.name}</Typography> */}
         </Box>
         <IconButton size="sm" variant="plain" color="neutral" onClick={() => handleLogout()}>
           <LogoutRoundedIcon />

@@ -9,38 +9,44 @@ import Link from '@mui/joy/Link';
 import Select from '@mui/joy/Select';
 import Option from '@mui/joy/Option';
 import Modal from '@mui/joy/Modal';
-import { DialogActions, DialogContent, DialogTitle, Divider, ModalDialog } from '@mui/joy';
+import { DialogActions, DialogContent, DialogTitle, Divider, Dropdown, Menu, MenuButton, MenuItem, ModalDialog } from '@mui/joy';
 import { Add, DeleteForever, Warning } from '@mui/icons-material';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
 
-export default function ServiceCreationForm() {
+export default function TicketCreationForm() {
     const navigate = useNavigate();
 
     const [open, setOpen] = React.useState<boolean>(false);
 
     interface FormElements extends HTMLFormControlsCollection {
+        date: HTMLInputElement;
         typeOfService: HTMLInputElement;
-        image: HTMLInputElement;
-        description: HTMLInputElement;
+        place: HTMLInputElement;
+        comments: HTMLInputElement;
     }
     interface ServiceFormElement extends HTMLFormElement {
         readonly elements: FormElements;
     }
 
-    interface IService { typeOfService: string; image: string; description: string };
+    interface IService {
+        date: string;
+        typeOfService: string;
+        place: string;
+        comments: string;
+    };
 
     async function handleSubmition() {
         // alert("service request sumbitted" + JSON.stringify(data));
         try {
-            let data = window.localStorage.getItem("newService") || "new service not updated at client side";
+            let data = window.localStorage.getItem("newServiceReq") || "new service not updated at client side";
 
             await axios.post('/service', JSON.parse(data));
             alert("Your service has been updated in blockchain")
             navigate("/services");
 
-            window.localStorage.removeItem("newService");
+            window.localStorage.removeItem("newServiceReq");
 
         } catch (err) {
             alert(err);
@@ -53,8 +59,8 @@ export default function ServiceCreationForm() {
         }
     }
 
-    function setDataInBrowser(newService: IService) {
-        window.localStorage.setItem("newService", JSON.stringify(newService));
+    function setDataInBrowser(newServiceReq: IService) {
+        window.localStorage.setItem("newServiceReq", JSON.stringify(newServiceReq));
         setOpen(true);
     }
 
@@ -74,9 +80,10 @@ export default function ServiceCreationForm() {
                     event.preventDefault();
                     const formElements = event.currentTarget.elements;
                     const data = {
+                        date: formElements.date.value,
                         typeOfService: formElements.typeOfService.value,
-                        image: formElements.image.innerText,
-                        description: formElements.description.value,
+                        place: formElements.place.value,
+                        comments: formElements.comments.value,
                     };
                     //   alert(JSON.stringify(data, null, 2));
                     // handleSubmition(data)
@@ -101,16 +108,23 @@ export default function ServiceCreationForm() {
                     className="serviceForm"
                 >
                     <FormControl required>
+                        <FormLabel>Date</FormLabel>
+                        <Input name="name" type="text" />
+                    </FormControl>
+                    <FormControl required>
                         <FormLabel>Type Of Service</FormLabel>
-                        <Input name="typeOfService" type="text" />
+                        <Select placeholder="Choose the service" id="typeOfService">
+                            <Option value="lending">Cleaning</Option>
+                            <Option value="borrowing">Cooking</Option>
+                        </Select>
                     </FormControl>
                     <FormControl required>
-                        <FormLabel>Image</FormLabel>
-                        <Input name="image" type="file" placeholder="image" />
+                        <FormLabel>Place</FormLabel>
+                        <Input name="place" type="text" placeholder="place" />
                     </FormControl>
                     <FormControl required>
-                        <FormLabel>Description</FormLabel>
-                        <Input name="description" type="text" placeholder="description" />
+                        <FormLabel>Comments</FormLabel>
+                        <Input name="comments" type="text" placeholder="comments" />
                     </FormControl>
                 </Sheet>
                 <Sheet
@@ -129,7 +143,7 @@ export default function ServiceCreationForm() {
                         // onClick={() => {}}
                         type="submit"
                     >
-                        Secure New Service
+                        New Service Request
                     </Button>
                     <Modal open={open} onClose={() => setOpen(false)}>
                         <ModalDialog variant="outlined" role="alertdialog">
@@ -139,7 +153,7 @@ export default function ServiceCreationForm() {
                             </DialogTitle>
                             <Divider />
                             <DialogContent>
-                                Are you sure you want to submit service into blockchain ?
+                                Are you sure you want to create request for the service ?
                             </DialogContent>
                             <DialogActions>
                                 <Button type="submit" value="submit" variant="solid" color="danger" onClick={() => { setOpen(false); handleSubmition() }}>

@@ -1,11 +1,13 @@
 export class CreateUserDto {
-    readonly name: string;
+    readonly role: string;
     readonly email: string;
     readonly password: string;
+    readonly contactNumber: string;
 }
 
 export class UpdateUserDto {
-    readonly name: string;
+    readonly role: string;
     readonly email: string;
     readonly password: string;
+    readonly contactNumber: string;
 }

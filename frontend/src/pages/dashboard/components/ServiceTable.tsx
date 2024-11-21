@@ -85,14 +85,12 @@ function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) 
 
 interface IService {
   _id: string;
-  serviceId: string;
-  name: string;
-  price: string;
-  quantity: string;
+  date: string;
+  typeOfService: string;
+  place: string;
   image: string;
-  description: string;
-  lastUpdateDate: string;
   status: string;
+  comments: string;
 }
 
 
@@ -293,14 +291,12 @@ export default function ServiceTable() {
                   Date
                 </Link>
               </th> */}
-              <th style={{ width: 140, padding: '12px 6px' }}>Tx</th>
-              <th style={{ width: 140, padding: '12px 6px' }}>Service Id</th>
-              <th style={{ width: 120, padding: '12px 6px' }}>Name</th>
-              <th style={{ width: 120, padding: '12px 6px' }}>Price</th>
-              <th style={{ width: 120, padding: '12px 6px' }}>Quantity</th>
-              <th style={{ width: 60, padding: '12px 6px' }}>Image</th>
-              <th style={{ width: 140, padding: '12px 6px' }}>Description</th>
+              <th style={{ width: 140, padding: '12px 6px' }}>Date</th>
+              <th style={{ width: 140, padding: '12px 6px' }}>Type of service</th>
+              <th style={{ width: 120, padding: '12px 6px' }}>Place</th>
+              <th style={{ width: 140, padding: '12px 6px' }}>Image</th>
               <th style={{ width: 120, padding: '12px 6px' }}>Status</th>
+              <th style={{ width: 120, padding: '12px 6px' }}>Comments</th>
             </tr>
           </thead>
           <tbody>
@@ -331,25 +327,22 @@ export default function ServiceTable() {
                   </Link>
                 </td>
                 <td>
-                  <Typography level="body-xs">{row.serviceId}</Typography>
+                  <Typography level="body-xs">{row.date}</Typography>
                 </td>
                 <td>
-                  <Typography level="body-xs">{row.name}</Typography>
+                  <Typography level="body-xs">{row.typeOfService}</Typography>
                 </td>
                 <td>
-                  <Typography level="body-xs">{row.price}</Typography>
-                </td>
-                <td>
-                  <Typography level="body-xs">{row.quantity}</Typography>
+                  <Typography level="body-xs">{row.place}</Typography>
                 </td>
                 <td>
                   <Typography level="body-xs">{row.image}</Typography>
                 </td>
                 <td>
-                  <Typography level="body-xs">{row.description}</Typography>
+                  <Typography level="body-xs">{row.status}</Typography>
                 </td>
                 <td>
-                  <Typography level="body-xs">{row.status}</Typography>
+                  <Typography level="body-xs">{row.comments}</Typography>
                 </td>
                 {/* {row.status === "approvalPending"  ? (
                   <td>
