@@ -22,8 +22,8 @@ export class ServiceService {
         return updatedService;
     }
 
-    async getAllServicesByEmail(email: string): Promise<Service[]> {
-        return this.serviceModel.find({ email }).exec();
+    async getAllServices(): Promise<Service[]> {
+        return this.serviceModel.find().exec();
     }
 
     async getServiceById(id: string): Promise<Service> {

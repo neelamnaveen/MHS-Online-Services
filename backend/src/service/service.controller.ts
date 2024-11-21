@@ -15,8 +15,8 @@ export class ServiceController {
     return this.serviceService.updateServiceById(serviceId, updateData);
   }
 
-  @Get(':email')
-  async getAllServicesByEmail(@Param('email') email: string) {
-    return this.serviceService.getAllServicesByEmail(email);
+  @Get('')
+  async getAllServices() {
+    return this.serviceService.getAllServices();
   }
 }
