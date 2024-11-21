@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getModelToken } from '@nestjs/mongoose';
-import { TicketTicket } from './ticket.ticket';
+import { TicketTicket } from './ticket.service';
 import { Ticket } from '../schema/ticket.schema';
 import { Model } from 'mongoose';
 

@@ -1,8 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getModelToken } from '@nestjs/mongoose';
 import { TicketController } from './ticket.controller';
-import { TicketTicket } from './ticket.ticket';
-import { Ticket } from '../schema/ticket.schema';
+import { TicketTicket } from './ticket.service';
 import { Model } from 'mongoose';
 import { CreateTicketDto, UpdateTicketDto } from '../dto/ticket.dto';
 
@@ -28,7 +27,7 @@ describe('TicketController', () => {
             providers: [
                 TicketTicket,
                 {
-                    provide: getModelToken(Ticket.name),
+                    provide: getModelToken("Ticket"),
                     useValue: Model,
                 },
             ],

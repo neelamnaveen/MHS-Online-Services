@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TicketController } from './ticket.controller';
-import { TicketTicket } from './ticket.ticket';
+import { TicketTicket } from './ticket.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TicketSchema } from 'src/schema/ticket.schema';
 
