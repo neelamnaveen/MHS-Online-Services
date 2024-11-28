@@ -26,11 +26,11 @@ export default function TicketCreationForm() {
         place: HTMLInputElement;
         comments: HTMLInputElement;
     }
-    interface ServiceFormElement extends HTMLFormElement {
+    interface TicketFormElement extends HTMLFormElement {
         readonly elements: FormElements;
     }
 
-    interface IService {
+    interface ITicket {
         date: string;
         typeOfService: string;
         place: string;
@@ -40,13 +40,13 @@ export default function TicketCreationForm() {
     async function handleSubmition() {
         // alert("service request sumbitted" + JSON.stringify(data));
         try {
-            let data = window.localStorage.getItem("newServiceReq") || "new service not updated at client side";
+            let data = window.localStorage.getItem("newTicketReq") || "new service not updated at client side";
 
             await axios.post('/service', JSON.parse(data));
             alert("Your service has been updated in blockchain")
             navigate("/services");
 
-            window.localStorage.removeItem("newServiceReq");
+            window.localStorage.removeItem("newTicketReq");
 
         } catch (err) {
             alert(err);
@@ -59,8 +59,8 @@ export default function TicketCreationForm() {
         }
     }
 
-    function setDataInBrowser(newServiceReq: IService) {
-        window.localStorage.setItem("newServiceReq", JSON.stringify(newServiceReq));
+    function setDataInBrowser(newTicketReq: ITicket) {
+        window.localStorage.setItem("newTicketReq", JSON.stringify(newTicketReq));
         setOpen(true);
     }
 
@@ -76,7 +76,7 @@ export default function TicketCreationForm() {
         >
 
             <form
-                onSubmit={(event: React.FormEvent<ServiceFormElement>) => {
+                onSubmit={(event: React.FormEvent<TicketFormElement>) => {
                     event.preventDefault();
                     const formElements = event.currentTarget.elements;
                     const data = {
@@ -143,7 +143,7 @@ export default function TicketCreationForm() {
                         // onClick={() => {}}
                         type="submit"
                     >
-                        New Service Request
+                        New Ticket Request
                     </Button>
                     <Modal open={open} onClose={() => setOpen(false)}>
                         <ModalDialog variant="outlined" role="alertdialog">

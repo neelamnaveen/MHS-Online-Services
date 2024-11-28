@@ -25,6 +25,7 @@ interface FormElements extends HTMLFormControlsCollection {
     email: HTMLInputElement;
     contactNumber: HTMLInputElement;
     password: HTMLInputElement;
+    name: HTMLInputElement;
 }
 interface SignInFormElement extends HTMLFormElement {
     readonly elements: FormElements;
@@ -45,7 +46,7 @@ export default function SignInSide() {
             let res = await axios.get(`/user/`+userData.contactNumber);
 
             storeUserInLocal(JSON.stringify(res.data))
-            navigate("/dashboard")
+            navigate("/tickets")
         } catch(err){
             setWarning(true);
             setWarningMessage("Please enter valid contactNumber and password");
@@ -257,12 +258,17 @@ export default function SignInSide() {
                                             email: formElements.contactNumber.value,
                                             contactNumber: formElements.contactNumber.value,
                                             password: formElements.password.value,
+                                            name: formElements.name.value,
                                         };
                                         //   alert(JSON.stringify(data, null, 2));
                                         handleSignUp(data);
                                         // navigate("/dashboard")
                                     }}
                                 >
+                                    <FormControl required>
+                                        <FormLabel>Name</FormLabel>
+                                        <Input type="name" name="name" />
+                                    </FormControl>
                                     <FormControl required>
                                         <FormLabel>Phone Number</FormLabel>
                                         <Input type="contactNumber" name="contactNumber" />

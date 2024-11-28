@@ -70,30 +70,24 @@ interface IUser {
   _id?: string;
   name: string;
   emailId?: string;
-  password?: string;
   contactNumber?: string;
-  userSecret?: string;
-  platformId: string;
-  DOB?: string;
-  organization?: string;
 }
 
 export default function Sidebar() {
   const navigate = useNavigate()
-  
+
   const [user, setUser] = React.useState<IUser>({
-    name: 'user not loged in',
-    platformId: ""
+    name: 'user not loged in'
   })
 
-  React.useEffect(()=>{
+  React.useEffect(() => {
     const res = window.localStorage.getItem("currentUser");
-    if(!res){
-       navigate("/")
+    if (!res) {
+      navigate("/")
     } else {
       setUser(JSON.parse(res))
     }
-  },[])
+  }, [])
 
   function handleLogout(): void {
     window.localStorage.clear();
@@ -153,10 +147,10 @@ export default function Sidebar() {
         onClick={() => closeSidebar()}
       />
       <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-        <IconButton variant="soft" color="primary" size="sm">
+        {/* <IconButton variant="soft" color="primary" size="sm">
           <BrightnessAutoRoundedIcon />
-        </IconButton>
-        <Typography level="title-lg">{user.organization}</Typography>
+        </IconButton> */}
+        <Typography level="title-lg">MHS Services</Typography>
         <ColorSchemeToggle sx={{ ml: 'auto' }} />
       </Box>
       <Input size="sm" startDecorator={<SearchRoundedIcon />} placeholder="Search" />
@@ -199,7 +193,16 @@ export default function Sidebar() {
           </ListItem> */}
 
           <ListItem>
-            <ListItemButton onClick={()=>navigate("/dashboard")}>
+            <ListItemButton onClick={() => navigate("/tickets")}>
+              <ShoppingCartRoundedIcon />
+              <ListItemContent>
+                <Typography level="title-sm">Tickets</Typography>
+              </ListItemContent>
+            </ListItemButton>
+          </ListItem>
+
+          <ListItem>
+            <ListItemButton onClick={() => navigate("/dashboard")}>
               <ShoppingCartRoundedIcon />
               <ListItemContent>
                 <Typography level="title-sm">Services</Typography>
@@ -254,7 +257,7 @@ export default function Sidebar() {
             </ListItemButton>
           </ListItem> */}
 
-          <ListItem nested>
+          {/* <ListItem nested>
             <Toggler
               renderToggle={({ open, setOpen }) => (
                 <ListItemButton onClick={() => setOpen(!open)}>
@@ -278,15 +281,15 @@ export default function Sidebar() {
                     My profile
                   </ListItemButton>
                 </ListItem>
-                {/* <ListItem>
+                <ListItem>
                   <ListItemButton>Create a new user</ListItemButton>
                 </ListItem>
                 <ListItem>
                   <ListItemButton>Roles & permission</ListItemButton>
-                </ListItem> */}
+                </ListItem>
               </List>
             </Toggler>
-          </ListItem>
+          </ListItem>*/}
         </List>
 
         <List
@@ -299,8 +302,9 @@ export default function Sidebar() {
             mb: 2,
           }}
         >
+
           <ListItem>
-            <ListItemButton onClick={() => alert("Please write at neelamnaveencs@gmail.com")}>
+            <ListItemButton onClick={() => alert("Please contact Harish 9948909012 or write at neelamnaveencs@gmail.com")}>
               <SupportRoundedIcon />
               Support
             </ListItemButton>

@@ -32,16 +32,16 @@ function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   return 0;
 }
 
-type Service = 'asc' | 'desc';
+type Ticket = 'asc' | 'desc';
 
 function getComparator<Key extends keyof any>(
-  service: Service,
+  ticket: Ticket,
   orderBy: Key,
 ): (
   a: { [key in Key]: number | string },
   b: { [key in Key]: number | string },
 ) => number {
-  return service === 'desc'
+  return ticket === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
@@ -53,9 +53,9 @@ function getComparator<Key extends keyof any>(
 function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) {
   const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
   stabilizedThis.sort((a, b) => {
-    const service = comparator(a[0], b[0]);
-    if (service !== 0) {
-      return service;
+    const ticket = comparator(a[0], b[0]);
+    if (ticket !== 0) {
+      return ticket;
     }
     return a[1] - b[1];
   });
@@ -83,30 +83,33 @@ function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) 
 // }
 
 
-interface IService {
+interface ITicket {
   _id: string;
+  date: string;
   typeOfService: string;
+  place: string;
   image: string;
-  description: string;
+  status: string;
+  comments: string;
 }
 
 
 
-export default function ServiceTable() {
+export default function TicketTable() {
   const navigate = useNavigate();
 
-  const [service, setService] = React.useState<Service>('desc');
+  const [ticket, setTicket] = React.useState<Ticket>('desc');
   const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [open, setOpen] = React.useState(false);
 
   const [loading, setLoading] = useState(true);
-  const [rows, setRows] = useState<IService[]>([])
+  const [rows, setRows] = useState<ITicket[]>([])
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const { data: response } = await axios.get('/service');
+        const { data: response } = await axios.get('/ticket');
         setRows(response);
       } catch (error: any) {
         console.error(error.message);
@@ -119,9 +122,9 @@ export default function ServiceTable() {
 
   async function approvalHandler(data: any) {
     try {
-      const { data: response } = await axios.put('/service', data);
-      alert("Service approved ")
-      navigate("/services");
+      const { data: response } = await axios.put('/ticket', data);
+      alert("Ticket approved ")
+      navigate("/tickets");
     } catch (error: any) {
       console.error(error.message);
     }
@@ -218,13 +221,13 @@ export default function ServiceTable() {
         }}
       >
         <FormControl sx={{ flex: 1 }} size="sm">
-          <FormLabel>Search for service</FormLabel>
+          <FormLabel>Search for ticket</FormLabel>
           <Input size="sm" placeholder="Search" startDecorator={<SearchIcon />} />
         </FormControl>
         {renderFilters()}
       </Box>
       <Sheet
-        className="ServiceTableContainer"
+        className="TicketTableContainer"
         variant="outlined"
         sx={{
           display: { xs: 'none', sm: 'initial' },
@@ -274,28 +277,30 @@ export default function ServiceTable() {
                   underline="none"
                   color="primary"
                   component="button"
-                  onClick={() => setService(service === 'asc' ? 'desc' : 'asc')}
+                  onClick={() => setTicket(ticket === 'asc' ? 'desc' : 'asc')}
                   fontWeight="lg"
                   endDecorator={<ArrowDropDownIcon />}
                   sx={{
                     '& svg': {
                       transition: '0.2s',
                       transform:
-                        service === 'desc' ? 'rotate(0deg)' : 'rotate(180deg)',
+                        ticket === 'desc' ? 'rotate(0deg)' : 'rotate(180deg)',
                     },
                   }}
                 >
                   Date
                 </Link>
               </th> */}
+              <th style={{ width: 140, padding: '12px 6px' }}>Date</th>
               <th style={{ width: 140, padding: '12px 6px' }}>Type of service</th>
+              <th style={{ width: 120, padding: '12px 6px' }}>Place</th>
               <th style={{ width: 140, padding: '12px 6px' }}>Image</th>
-              <th style={{ width: 120, padding: '12px 6px' }}>Description</th>
-              <th style={{ width: 120, padding: '12px 6px' }}>Update</th>
+              <th style={{ width: 120, padding: '12px 6px' }}>Status</th>
+              <th style={{ width: 120, padding: '12px 6px' }}>Comments</th>
             </tr>
           </thead>
           <tbody>
-            {stableSort(rows, getComparator(service, '_id')).map((row) => (
+            {stableSort(rows, getComparator(ticket, '_id')).map((row) => (
               <tr key={row._id}>
                 <td style={{ textAlign: 'center', width: 120 }}>
                   <Checkbox
@@ -322,16 +327,22 @@ export default function ServiceTable() {
                   </Link>
                 </td>
                 <td>
+                  <Typography level="body-xs">{row.date}</Typography>
+                </td>
+                <td>
                   <Typography level="body-xs">{row.typeOfService}</Typography>
+                </td>
+                <td>
+                  <Typography level="body-xs">{row.place}</Typography>
                 </td>
                 <td>
                   <Typography level="body-xs">{row.image}</Typography>
                 </td>
                 <td>
-                  <Typography level="body-xs">{row.description}</Typography>
+                  <Typography level="body-xs">{row.status}</Typography>
                 </td>
                 <td>
-                  {/* <Typography level="body-xs">{row._id}</Typography> */}
+                  <Typography level="body-xs">{row.comments}</Typography>
                 </td>
                 {/* {row.status === "approvalPending"  ? (
                   <td>
