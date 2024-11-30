@@ -19,7 +19,8 @@ export class AuthService {
       secret: "refreshSecretKey",
       expiresIn: '30m'
     });
-    return { status: 201, message: "User Authenticated Successfully", data: { accessToken, refreshToken } };
+
+    return { status: 200, message: "User Authenticated Successfully", data: { accessToken, refreshToken, user } };
   }
 
   async verifyRefreshToken(loginData: any) {

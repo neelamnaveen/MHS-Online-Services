@@ -9,9 +9,9 @@ interface PrivateRouteProps {
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ roles, children }) => {
 
-  const currentUser = { isAuthenticated: true, role: 'admin' }; 
+  const currentUser = JSON.parse(window.localStorage.getItem("currentUser") as any )
 
-  if (!currentUser.isAuthenticated) {
+  if (!currentUser) {
     return <Navigate to="/" />;
   }
 

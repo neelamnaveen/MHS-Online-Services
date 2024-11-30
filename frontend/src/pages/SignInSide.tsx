@@ -2,7 +2,7 @@ import * as React from 'react';
 import { CssVarsProvider } from '@mui/joy/styles';
 import GlobalStyles from '@mui/joy/GlobalStyles';
 import CssBaseline from '@mui/joy/CssBaseline';
-import {Box} from '@mui/joy';
+import { Box } from '@mui/joy';
 import Button from '@mui/joy/Button';
 import Checkbox from '@mui/joy/Checkbox';
 import Divider from '@mui/joy/Divider';
@@ -37,19 +37,23 @@ export default function SignInSide() {
     const [warningMessage, setWarningMessage] = React.useState("There is a warning in user input");
     const [signInPage, setSignInPage] = React.useState(true);
 
-    function storeUserInLocal(userData: any){
+    function storeUserInLocal(userData: any) {
         window.localStorage.setItem("currentUser", userData);
     }
     async function handleSignIn(userData: any) {
-        try{
-            await axios.post('/auth/login', userData);
-            let res = await axios.get(`/user/`+userData.contactNumber);
+        try {
+            let res = await axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, userData);
+            if (res.data.status != 200) throw Error("catch block")
 
-            storeUserInLocal(JSON.stringify(res.data))
-            navigate("/tickets")
-        } catch(err){
+            let resData = { ...res.data.data.user, ...res.data.data }
+            delete resData.user
+
+            storeUserInLocal(JSON.stringify(resData));
+            (resData.role === "admin") ? navigate("/tickets") : navigate('create-ticket');
+
+        } catch (err) {
             setWarning(true);
-            setWarningMessage("Please enter valid contactNumber and password");
+            setWarningMessage("Please enter the valid Phone Number and password");
             setTimeout(() => {
                 setWarning(false);
             }, 5000);
@@ -57,10 +61,10 @@ export default function SignInSide() {
     }
 
     async function handleSignUp(userData: any) {
-        try{
+        try {
             await axios.post('/user', userData);
             window.location.reload();
-        } catch(err:any){
+        } catch (err: any) {
             setWarning(true);
             setWarningMessage(err.response.data.message);
             setTimeout(() => {

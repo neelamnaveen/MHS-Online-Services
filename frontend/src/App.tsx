@@ -19,14 +19,16 @@ function App() {
           <Route path="/" element={<SignInSide />} />
           <Route path="/unauthorized" element={<Unauthorized />} />
           <Route element={<PrivateRoute roles={['user', 'admin']} />}>
-            <Route path="/profile-dashboard" element={<MyProfile />} /> </Route>
+            <Route path="/profile-dashboard" element={<MyProfile />} /> 
+          </Route>
           <Route element={<PrivateRoute roles={['admin']} />}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/services" element={<Dashboard />} />
             <Route path="/tickets" element={<TicketDashboard />} />
             <Route path="/create-service" element={<CreateService />} />
-            <Route path="/create-ticket" element={<CreateTicket />} /> </Route>
-          <Route element={<PrivateRoute roles={['user']} />}>
+          </Route>
+          <Route element={<PrivateRoute roles={['user', 'admin']} />}>
+            <Route path="/create-ticket" element={<CreateTicket />} />
             <Route path="/user-dashboard" element={<UserDashboard />} /> </Route>
         </Routes>
       </Router>
