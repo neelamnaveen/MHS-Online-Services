@@ -19,8 +19,10 @@ import Header from './components/Header';
 import ServiceCreationForm from './components/ServiceCreationForm';
 import { useNavigate } from 'react-router-dom';
 import TicketCreationForm from './components/TicketCreationForm';
+import ServicesDashboard from './components/ServicesDashboard';
 
 export default function CreateTicket() {
+  const [step, setStep] = React.useState<number>(0);
     const navigate = useNavigate()
     return (
     <CssVarsProvider disableTransitionOnChange>
@@ -77,7 +79,10 @@ export default function CreateTicket() {
               </Typography>
             </Breadcrumbs>
           </Box>
-          <TicketCreationForm/>
+
+          {(step===0)&&<ServicesDashboard setStep={setStep} />}
+          {(step===1)&&<TicketCreationForm/>}
+
           {/* <Box
             sx={{
               display: 'flex',

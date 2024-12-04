@@ -106,7 +106,7 @@ export default function ServiceTable() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const { data: response } = await axios.get('/service');
+        const { data: response } = await axios.get(`${process.env.REACT_APP_API_URL}/service`);
         setRows(response);
       } catch (error: any) {
         console.error(error.message);
@@ -117,9 +117,9 @@ export default function ServiceTable() {
     fetchData();
   }, []);
 
-  async function approvalHandler(data: any) {
+  async function updateServiceHandler(data: any) {
     try {
-      const { data: response } = await axios.put('/service', data);
+      const { data: response } = await axios.put(`${process.env.REACT_APP_API_URL}/service`, data);
       alert("Service approved ")
       navigate("/services");
     } catch (error: any) {
@@ -316,57 +316,35 @@ export default function ServiceTable() {
                 {/* <td>
                   <Typography level="body-xs">{row.date}</Typography>
                 </td> */}
-                <td>
+                {/* <td>
                   <Link level="body-xs" component="button">
                     {row._id}
                   </Link>
-                </td>
+                </td> */}
                 <td>
                   <Typography level="body-xs">{row.typeOfService}</Typography>
                 </td>
                 <td>
-                  <Typography level="body-xs">{row.image}</Typography>
+                  <img src={row.image} alt={row.typeOfService+" image"} style={{ width: '200px', height: '75' }}/>
+                  {/* <Typography level="body-xs">{row.image}</Typography> */}
                 </td>
                 <td>
                   <Typography level="body-xs">{row.description}</Typography>
                 </td>
-                <td>
+                {/* <td> */}
                   {/* <Typography level="body-xs">{row._id}</Typography> */}
+                {/* </td> */}
+                <td>
+                  <Button
+                    variant="solid"
+                    color="success"
+                    startDecorator={<Add />}
+                    onClick={() => updateServiceHandler({_id:row._id, status:"approved"})}
+                    size= 'sm'
+                  >
+                    Update
+                  </Button>
                 </td>
-                {/* {row.status === "approvalPending"  ? (
-                  <td>
-                    <Button
-                      variant="solid"
-                      color="success"
-                      startDecorator={<Add />}
-                      onClick={() => approvalHandler({_id:row._id, status:"approved"})}
-                      size= 'sm'
-                    >
-                      Approve
-                    </Button>
-                  </td>
-                ) : (<td>
-                    <Chip
-                      variant="soft"
-                      size="sm"
-                      startDecorator={
-                        {
-                          Paid: <CheckRoundedIcon />,
-                          InProgress: <AutorenewRoundedIcon />,
-                          Cancelled: <BlockIcon />,
-                        }[row.status]
-                      }
-                      color={
-                        {
-                          Paid: 'success',
-                          InProgress: 'neutral',
-                          Cancelled: 'danger',
-                        }[row.status] as ColorPaletteProp
-                      }
-                    >
-                      {row.status}
-                    </Chip>
-                  </td>)} */}
                 {/* <td>
                   <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
                     <Link level="body-xs" component="button">
