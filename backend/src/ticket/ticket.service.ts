@@ -10,6 +10,7 @@ export class TicketTicket {
     constructor(@InjectModel("Ticket") private ticketModel: Model<Ticket>) {}
 
     async addTicket(createTicketDto: CreateTicketDto): Promise<Ticket> {
+        createTicketDto.status = "Pending";
         const createdTicket = new this.ticketModel(createTicketDto);
         return createdTicket.save();
     }
@@ -22,8 +23,8 @@ export class TicketTicket {
         return updatedTicket;
     }
 
-    async getAllTicketsByEmail(email: string): Promise<Ticket[]> {
-        return this.ticketModel.find({ email }).exec();
+    async getAllTicketsByEmail(): Promise<Ticket[]> {
+        return this.ticketModel.find({}).exec();
     }
 
     async getTicketById(id: string): Promise<Ticket> {

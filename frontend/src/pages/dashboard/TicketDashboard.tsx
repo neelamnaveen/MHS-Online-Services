@@ -90,7 +90,7 @@ export default function TicketDashboard() {
             </Button>
           </Box>
           <TicketTable />
-          <TicketList />
+          {/* <TicketList /> */}
         </Box>
       </Box>
     </CssVarsProvider>

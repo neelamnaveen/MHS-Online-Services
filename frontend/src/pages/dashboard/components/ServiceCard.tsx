@@ -17,15 +17,15 @@ interface IService {
 interface ServiceCardProps { service: IService; setStep: any}
 
 export default function ServiceCard({ service, setStep }: ServiceCardProps) {
-  function gotoRequestFormHandler(_id:string): React.MouseEventHandler<HTMLDivElement> | undefined {
+  function gotoRequestFormHandler(typeOfService:string): React.MouseEventHandler<HTMLDivElement> | undefined {
     console.log("ఈ సేవా అభ్యర్థనను పంపండి")
-    sessionStorage.setItem('serviceId', _id);
+    sessionStorage.setItem('typeOfService', typeOfService);
     setStep(1)
     return
   }
 
   return (
-    <Card sx={{ width: 320 }} onClick={()=> gotoRequestFormHandler(service._id)}>
+    <Card sx={{ width: 320 }} onClick={()=> gotoRequestFormHandler(service.typeOfService)}>
       <div>
         <Typography level="title-lg">{service.typeOfService}</Typography>
         <br></br>

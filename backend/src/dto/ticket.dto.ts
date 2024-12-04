@@ -1,13 +1,17 @@
 export class CreateTicketDto {
-    readonly date: string;
+    readonly email?: string;
+    date: string;
     readonly typeOfService: string;
-    readonly place: string;
-    readonly comments: string;
+    readonly place?: string;
+    readonly comments?: string;
+    status?: string;
 }
 
 export class UpdateTicketDto {
-    readonly date: string;
+    readonly email?: string;
+    date: string;
     readonly typeOfService: string;
-    readonly place: string;
-    readonly comments: string;
+    readonly place?: string;
+    readonly comments?: string;
+    status?: string;
 }

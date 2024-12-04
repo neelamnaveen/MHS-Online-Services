@@ -10,6 +10,7 @@ import Select from "@mui/joy/Select";
 import Option from "@mui/joy/Option";
 import Modal from "@mui/joy/Modal";
 import {
+  Card,
   DialogActions,
   DialogContent,
   DialogTitle,
@@ -24,7 +25,17 @@ import {
 import { Add, DeleteForever, Warning } from "@mui/icons-material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-// import { DateTimePicker } from "@mui/x-date-pickers";
+import {
+  LocalizationProvider,
+  DateTimePicker,
+  DatePicker,
+} from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { de, enUS } from "date-fns/locale";
+import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
+// import dayjs from "dayjs";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
 
 export default function TicketCreationForm() {
   const navigate = useNavigate();
@@ -45,17 +56,26 @@ export default function TicketCreationForm() {
 
   interface ITicket {
     date: string;
-    typeOfService: string;
+    typeOfService?: string;
     place: string;
     comments: string;
-    serviceId?: string;
   }
 
   async function handleSubmition() {
     try {
-      let data = (window.localStorage.getItem("newTicketReq") ||
-        "new ticket not updated at client side") as unknown as ITicket;
-      data.serviceId = sessionStorage.getItem("serviceId") as string;
+      let data = JSON.parse(
+        window.localStorage.getItem("newTicketReq") ||
+          "new ticket not updated at client side"
+      );
+
+      data.typeOfService = sessionStorage.getItem("typeOfService") as string;
+
+      data.email = JSON.parse(
+        window.localStorage.getItem("currentUser") ||
+          "user details not updated at client side"
+      ).email;
+
+
       await axios.post(`${process.env.REACT_APP_API_URL}/ticket`, data);
       alert(
         "మీ రిక్వెస్ట్ ను స్వీకరిచినం, మా కస్టమర్ సపోర్ట్ మీకు కాల్ చేస్తాడు"
@@ -63,7 +83,7 @@ export default function TicketCreationForm() {
       navigate("/tickets");
 
       window.localStorage.removeItem("newTicketReq");
-      sessionStorage.removeItem("serviceId");
+      sessionStorage.removeItem("typeOfService");
     } catch (err) {
       alert(err);
       console.log(err);
@@ -91,12 +111,9 @@ export default function TicketCreationForm() {
           const formElements = event.currentTarget.elements;
           const data = {
             date: formElements.date.value,
-            typeOfService: formElements.typeOfService.value,
             place: formElements.place.value,
             comments: formElements.comments.value,
           };
-          //   alert(JSON.stringify(data, null, 2));
-          // handleSubmition(data)
 
           setDataInBrowser(data);
         }}
@@ -110,7 +127,7 @@ export default function TicketCreationForm() {
                 onChange={(newValue) => setDate(newValue)}
               /> */}
               <FormLabel>Date/ తేదీ</FormLabel>
-              <Input name="name" type="text" />
+              <Input name="date" type="date" />
             </FormControl>
           </Grid>
           <Grid>

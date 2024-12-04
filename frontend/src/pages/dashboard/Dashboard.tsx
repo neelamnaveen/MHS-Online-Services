@@ -90,7 +90,7 @@ export default function Dashboard() {
             </Button>
           </Box>
           <ServiceTable />
-          <ServiceList />
+          {/* <ServiceList /> */}
         </Box>
       </Box>
     </CssVarsProvider>

@@ -19,7 +19,7 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Add } from '@mui/icons-material';
+import { Add, Edit } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -84,6 +84,7 @@ function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) 
 
 
 interface ITicket {
+  email: string;
   _id: string;
   date: string;
   typeOfService: string;
@@ -109,7 +110,7 @@ export default function TicketTable() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const { data: response } = await axios.get('/ticket');
+        const { data: response } = await axios.get(`${process.env.REACT_APP_API_URL}/ticket`);
         setRows(response);
       } catch (error: any) {
         console.error(error.message);
@@ -122,7 +123,7 @@ export default function TicketTable() {
 
   async function approvalHandler(data: any) {
     try {
-      const { data: response } = await axios.put('/ticket', data);
+      const { data: response } = await axios.put(`${process.env.REACT_APP_API_URL}/ticket`, data);
       alert("Ticket approved ")
       navigate("/tickets");
     } catch (error: any) {
@@ -167,6 +168,10 @@ export default function TicketTable() {
       </FormControl>
     </React.Fragment>
   );
+  function updateTicketHandler(arg0: { _id: string; status: string; }): void {
+    alert("This feature is not available currently")
+  }
+
   return (
     <React.Fragment>
       <Sheet
@@ -293,10 +298,12 @@ export default function TicketTable() {
               </th> */}
               <th style={{ width: 140, padding: '12px 6px' }}>Date</th>
               <th style={{ width: 140, padding: '12px 6px' }}>Type of service</th>
+              {/* <th style={{ width: 140, padding: '12px 6px' }}>Image</th>
               <th style={{ width: 120, padding: '12px 6px' }}>Place</th>
-              <th style={{ width: 140, padding: '12px 6px' }}>Image</th>
+              <th style={{ width: 120, padding: '12px 6px' }}>Comments</th> */}
+              <th style={{ width: 120, padding: '12px 6px' }}>Contact</th>
               <th style={{ width: 120, padding: '12px 6px' }}>Status</th>
-              <th style={{ width: 120, padding: '12px 6px' }}>Comments</th>
+              <th style={{ width: 120, padding: '12px 6px' }}>Update</th>
             </tr>
           </thead>
           <tbody>
@@ -321,28 +328,42 @@ export default function TicketTable() {
                 {/* <td>
                   <Typography level="body-xs">{row.date}</Typography>
                 </td> */}
-                <td>
+                {/* <td>
                   <Link level="body-xs" component="button">
                     {row._id}
                   </Link>
-                </td>
+                </td> */}
                 <td>
                   <Typography level="body-xs">{row.date}</Typography>
                 </td>
                 <td>
                   <Typography level="body-xs">{row.typeOfService}</Typography>
                 </td>
+                {/* <td>
+                  <Typography level="body-xs">{row.image}</Typography>
+                </td>
                 <td>
                   <Typography level="body-xs">{row.place}</Typography>
                 </td>
                 <td>
-                  <Typography level="body-xs">{row.image}</Typography>
+                  <Typography level="body-xs">{row.comments}</Typography>
+                </td> */}
+                <td>
+                  <Typography level="body-xs">{row.email}</Typography>
                 </td>
                 <td>
                   <Typography level="body-xs">{row.status}</Typography>
                 </td>
                 <td>
-                  <Typography level="body-xs">{row.comments}</Typography>
+                  <Button
+                    variant="outlined"
+                    color="success"
+                    startDecorator={<Edit />}
+                    onClick={() => updateTicketHandler({_id:row._id, status:"Started"})}
+                    size= 'sm'
+                  >
+                    Change
+                  </Button>
                 </td>
                 {/* {row.status === "approvalPending"  ? (
                   <td>

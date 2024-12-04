@@ -5,7 +5,7 @@ import { TicketTicket } from './ticket.service';
 export class TicketController {
   constructor(private readonly ticketTicket: TicketTicket) {}
 
-  @Post('add')
+  @Post('')
   async addTicket(@Body() ticketData) {
     return this.ticketTicket.addTicket(ticketData);
   }
@@ -15,8 +15,8 @@ export class TicketController {
     return this.ticketTicket.updateTicketById(ticketId, updateData);
   }
 
-  @Get(':email')
-  async getAllTicketsByEmail(@Param('email') email: string) {
-    return this.ticketTicket.getAllTicketsByEmail(email);
+  @Get('')
+  async getAllTicketsByEmail() {
+    return this.ticketTicket.getAllTicketsByEmail();
   }
 }
