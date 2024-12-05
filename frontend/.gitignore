@@ -132,6 +132,8 @@ dist
 
 node_modules
 .env
+build
+/build
 
 # Hardhat files
 /cache
