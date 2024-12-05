@@ -83,7 +83,7 @@ export default function Sidebar() {
   React.useEffect(() => {
     const res = window.localStorage.getItem("currentUser");
     if (!res) {
-      navigate("/")
+      navigate("/sign-in")
     } else {
       setUser(JSON.parse(res))
     }
@@ -91,7 +91,7 @@ export default function Sidebar() {
 
   function handleLogout(): void {
     window.localStorage.clear();
-    navigate("/");
+    navigate("/sign-in");
   }
 
   return (

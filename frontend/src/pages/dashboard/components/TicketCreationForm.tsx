@@ -1,13 +1,9 @@
 import * as React from "react";
 import Sheet from "@mui/joy/Sheet";
-import Typography from "@mui/joy/Typography";
 import FormControl from "@mui/joy/FormControl";
 import FormLabel from "@mui/joy/FormLabel";
 import Input from "@mui/joy/Input";
 import Button from "@mui/joy/Button";
-import Link from "@mui/joy/Link";
-import Select from "@mui/joy/Select";
-import Option from "@mui/joy/Option";
 import Modal from "@mui/joy/Modal";
 import {
   Card,
@@ -15,34 +11,15 @@ import {
   DialogContent,
   DialogTitle,
   Divider,
-  Dropdown,
   Grid,
-  Menu,
-  MenuButton,
-  MenuItem,
   ModalDialog,
 } from "@mui/joy";
-import { Add, DeleteForever, Warning } from "@mui/icons-material";
+import { Warning } from "@mui/icons-material";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import {
-  LocalizationProvider,
-  DateTimePicker,
-  DatePicker,
-} from "@mui/x-date-pickers";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { de, enUS } from "date-fns/locale";
-import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
-// import dayjs from "dayjs";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs from "dayjs";
 
 export default function TicketCreationForm() {
-  const navigate = useNavigate();
 
   const [open, setOpen] = React.useState<boolean>(false);
-
-  const [date, setDate] = React.useState(null);
 
   interface FormElements extends HTMLFormControlsCollection {
     date: HTMLInputElement;
@@ -80,7 +57,7 @@ export default function TicketCreationForm() {
       alert(
         "మీ రిక్వెస్ట్ ను స్వీకరిచినం, మా కస్టమర్ సపోర్ట్ మీకు కాల్ చేస్తాడు"
       );
-      navigate("/tickets");
+      window.location.reload()
 
       window.localStorage.removeItem("newTicketReq");
       sessionStorage.removeItem("typeOfService");

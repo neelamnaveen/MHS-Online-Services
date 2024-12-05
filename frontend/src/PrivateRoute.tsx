@@ -12,7 +12,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ roles, children }) => {
   const currentUser = JSON.parse(window.localStorage.getItem("currentUser") as any )
 
   if (!currentUser) {
-    return <Navigate to="/" />;
+    return <Navigate to="/sign-in" />;
   }
 
   if (!roles.includes(currentUser.role)) {

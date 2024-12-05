@@ -49,7 +49,7 @@ export default function SignInSide() {
             delete resData.user
 
             storeUserInLocal(JSON.stringify(resData));
-            (resData.role === "admin") ? navigate("/tickets") : navigate('create-ticket');
+            (resData.role === "admin") ? navigate("/tickets") : navigate('/create-ticket');
 
         } catch (err) {
             setWarning(true);
@@ -62,7 +62,7 @@ export default function SignInSide() {
 
     async function handleSignUp(userData: any) {
         try {
-            await axios.post('/user', userData);
+            await axios.post(`${process.env.REACT_APP_API_URL}/user`, userData);
             window.location.reload();
         } catch (err: any) {
             setWarning(true);
