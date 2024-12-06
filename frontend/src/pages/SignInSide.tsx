@@ -308,7 +308,8 @@ export default function SignInSide() {
                     </Box>
                     <Box component="footer" sx={{ py: 3 }}>
                         <Typography level="body-xs" textAlign="center">
-                            © MHS Services {new Date().getFullYear()}
+                            © Developed by Naveen Neelam <Link href="https://neelamnaveen.github.io/cv/">Profile</Link> 
+                            {/* {new Date().getFullYear()} */}
                         </Typography>
                     </Box>
                 </Box>

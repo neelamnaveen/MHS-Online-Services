@@ -34,4 +34,10 @@ export class TicketTicket {
         }
         return ticket;
     }
+
+    async deleteTicket(id: string): Promise<string> {
+        await this.ticketModel.deleteOne({_id:id}).exec();
+
+        return "Deletion succeeded"
+    }
 }

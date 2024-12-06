@@ -25,7 +25,7 @@ import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import SearchIcon from "@mui/icons-material/Search";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Edit, More } from "@mui/icons-material";
+import { Delete, Edit, More } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -131,18 +131,16 @@ export default function TicketTable() {
     fetchData();
   }, []);
 
-  async function approvalHandler(data: any) {
+  async function deleteTicketHandler(id: string) {
     try {
-      const { data: response } = await axios.put(
-        `${process.env.REACT_APP_API_URL}/ticket`,
-        data
-      );
-      alert("Ticket approved ");
-      navigate("/tickets");
+      await axios.delete(`${process.env.REACT_APP_API_URL}/ticket/${id}`);
+      alert("Ticket deleted ");
+      window.location.reload();
     } catch (error: any) {
       console.error(error.message);
     }
   }
+
   const renderFilters = () => (
     <React.Fragment>
       <FormControl size="sm">
@@ -196,7 +194,7 @@ export default function TicketTable() {
     }
   }
 
-  function moreUserDetails(row: any){
+  function moreUserDetails(row: any) {
     delete row.__v;
     delete row._id;
     delete row.email;
@@ -204,12 +202,12 @@ export default function TicketTable() {
     delete row.typeOfService;
     delete row.status;
 
-    var output = '';
+    var output = "";
     for (var entry in row) {
-      output += entry + " : " + row[entry] + '\n';
+      output += entry + " : " + row[entry] + "\n";
     }
     alert(output);
-    return ""
+    return "";
   }
 
   return (
@@ -381,6 +379,13 @@ export default function TicketTable() {
                         placeholder={row.status}
                       />
                       <Button
+                        variant="plain"
+                        color="success"
+                        startDecorator={<More />}
+                        size="sm"
+                        onClick={() => moreUserDetails(row)}
+                      ></Button>
+                      <Button
                         type="submit"
                         variant="plain"
                         color="success"
@@ -389,12 +394,11 @@ export default function TicketTable() {
                       />
                       <Button
                         variant="plain"
-                        color="success"
-                        startDecorator={<More />}
-                        size="sm"
-                        onClick={()=>moreUserDetails(row)}
-                      >
-                      </Button>
+                        color="danger"
+                        startDecorator={<Delete />}
+                        onClick={() => deleteTicketHandler(row._id)}
+                        size="md"
+                      ></Button>
                     </Stack>
                   </form>
                 </td>
