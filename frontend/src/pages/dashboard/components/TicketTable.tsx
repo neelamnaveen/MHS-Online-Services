@@ -1,16 +1,12 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import * as React from "react";
-import { ColorPaletteProp } from "@mui/joy/styles";
 import {
   Typography,
-  Avatar,
   Box,
   Button,
-  Chip,
   Divider,
   FormControl,
   FormLabel,
-  Link,
   Input,
   Modal,
   ModalDialog,
@@ -20,27 +16,15 @@ import {
   Table,
   Sheet,
   Checkbox,
-  TextField,
   Textarea,
 } from "@mui/joy";
 import IconButton, { iconButtonClasses } from "@mui/joy/IconButton";
-// import Menu from '@mui/joy/Menu';
-// import MenuButton from '@mui/joy/MenuButton';
-// import MenuItem from '@mui/joy/MenuItem';
-// import Dropdown from '@mui/joy/Dropdown';
 
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import SearchIcon from "@mui/icons-material/Search";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
-import BlockIcon from "@mui/icons-material/Block";
-import AutorenewRoundedIcon from "@mui/icons-material/AutorenewRounded";
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
-import MoreHorizRoundedIcon from "@mui/icons-material/MoreHorizRounded";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Add, Edit } from "@mui/icons-material";
+import { Edit } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -204,7 +188,7 @@ export default function TicketTable() {
 
       await axios.put(`${process.env.REACT_APP_API_URL}/ticket/${id}`, data);
       alert("Ticket updated successfully ");
-      
+
       window.location.reload();
     } catch (error) { alert(error) }
   }
@@ -322,25 +306,6 @@ export default function TicketTable() {
                   sx={{ verticalAlign: "text-bottom" }}
                 />
               </th>
-              {/* <th style={{ width: 120, padding: '12px 6px' }}>
-                <Link
-                  underline="none"
-                  color="primary"
-                  component="button"
-                  onClick={() => setTicket(ticket === 'asc' ? 'desc' : 'asc')}
-                  fontWeight="lg"
-                  endDecorator={<ArrowDropDownIcon />}
-                  sx={{
-                    '& svg': {
-                      transition: '0.2s',
-                      transform:
-                        ticket === 'desc' ? 'rotate(0deg)' : 'rotate(180deg)',
-                    },
-                  }}
-                >
-                  Date
-                </Link>
-              </th> */}
               <th style={{ width: 140, padding: "12px 6px" }}>Date</th>
               <th style={{ width: 140, padding: "12px 6px" }}>
                 Type of service
@@ -372,29 +337,12 @@ export default function TicketTable() {
                     sx={{ verticalAlign: "text-bottom" }}
                   />
                 </td>
-                {/* <td>
-                  <Typography level="body-xs">{row.date}</Typography>
-                </td> */}
-                {/* <td>
-                  <Link level="body-xs" component="button">
-                    {row._id}
-                  </Link>
-                </td> */}
                 <td>
                   <Typography level="body-xs">{row.date}</Typography>
                 </td>
                 <td>
                   <Typography level="body-xs">{row.typeOfService}</Typography>
                 </td>
-                {/* <td>
-                  <Typography level="body-xs">{row.image}</Typography>
-                </td>
-                <td>
-                  <Typography level="body-xs">{row.place}</Typography>
-                </td>
-                <td>
-                  <Typography level="body-xs">{row.comments}</Typography>
-                </td> */}
                 <td>
                   <Typography level="body-xs">{row.email}</Typography>
                 </td>
@@ -423,51 +371,7 @@ export default function TicketTable() {
                       size="sm"
                     ></Button>
                   </form>
-                </td>
-
-                <td></td>
-                {/* {row.status === "approvalPending"  ? (
-                  <td>
-                    <Button
-                      variant="solid"
-                      color="success"
-                      startDecorator={<Add />}
-                      onClick={() => approvalHandler({_id:row._id, status:"approved"})}
-                      size= 'sm'
-                    >
-                      Approve
-                    </Button>
-                  </td>
-                ) : (<td>
-                    <Chip
-                      variant="soft"
-                      size="sm"
-                      startDecorator={
-                        {
-                          Paid: <CheckRoundedIcon />,
-                          InProgress: <AutorenewRoundedIcon />,
-                          Cancelled: <BlockIcon />,
-                        }[row.status]
-                      }
-                      color={
-                        {
-                          Paid: 'success',
-                          InProgress: 'neutral',
-                          Cancelled: 'danger',
-                        }[row.status] as ColorPaletteProp
-                      }
-                    >
-                      {row.status}
-                    </Chip>
-                  </td>)} */}
-                {/* <td>
-                  <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-                    <Link level="body-xs" component="button">
-                      Download
-                    </Link>
-                    <RowMenu />
-                  </Box>
-                </td> */}
+                </td>                
               </tr>
             ))}
           </tbody>
