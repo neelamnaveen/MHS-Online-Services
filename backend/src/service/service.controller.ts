@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   Put,
+  Delete,
 } from '@nestjs/common';
 import { ServiceService } from './service.service';
 
@@ -28,5 +29,10 @@ export class ServiceController {
   @Get('')
   async getAllServices() {
     return this.serviceService.getAllServices();
+  }
+
+  @Delete('')
+  async deleteService(@Body() serviceData) {
+    return this.serviceService.deleteService(serviceData);
   }
 }

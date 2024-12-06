@@ -19,7 +19,7 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Add } from '@mui/icons-material';
+import { Add, Delete } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -117,10 +117,10 @@ export default function ServiceTable() {
     fetchData();
   }, []);
 
-  async function updateServiceHandler(data: any) {
+  async function deleteServiceHandler(id: string) {
     try {
-      const { data: response } = await axios.put(`${process.env.REACT_APP_API_URL}/service`, data);
-      alert("Service approved ")
+      // const { data: response } = await axios.delete(`${process.env.REACT_APP_API_URL}/service`, id);
+      alert("Service deleted ")
       navigate("/services");
     } catch (error: any) {
       console.error(error.message);
@@ -169,7 +169,7 @@ export default function ServiceTable() {
       <Sheet
         className="SearchAndFilters-mobile"
         sx={{
-          display: { xs: 'flex', sm: 'none' },
+          display: { xs: 'flex', sm: 'flex' },
           my: 1,
           gap: 1,
         }}
@@ -227,7 +227,7 @@ export default function ServiceTable() {
         className="ServiceTableContainer"
         variant="outlined"
         sx={{
-          display: { xs: 'none', sm: 'initial' },
+          display: { xs: 'flex', sm: 'initial' },
           width: '100%',
           borderRadius: 'sm',
           flexShrink: 1,
@@ -280,7 +280,7 @@ export default function ServiceTable() {
                   sx={{
                     '& svg': {
                       transition: '0.2s',
-                      transform:
+                      11222transform:
                         service === 'desc' ? 'rotate(0deg)' : 'rotate(180deg)',
                     },
                   }}
@@ -289,7 +289,7 @@ export default function ServiceTable() {
                 </Link>
               </th> */}
               <th style={{ width: 140, padding: '12px 6px' }}>Type of service</th>
-              <th style={{ width: 140, padding: '12px 6px' }}>Image</th>
+              <th style={{ width: 210, padding: '12px 6px' }}>Image</th>
               <th style={{ width: 120, padding: '12px 6px' }}>Description</th>
               <th style={{ width: 120, padding: '12px 6px' }}>Update</th>
             </tr>
@@ -338,11 +338,11 @@ export default function ServiceTable() {
                   <Button
                     variant="solid"
                     color="success"
-                    startDecorator={<Add />}
-                    onClick={() => updateServiceHandler({_id:row._id, status:"approved"})}
+                    startDecorator={<Delete />}
+                    onClick={() => deleteServiceHandler(row._id)}
                     size= 'sm'
                   >
-                    Update
+                    Delete
                   </Button>
                 </td>
                 {/* <td>
@@ -358,7 +358,7 @@ export default function ServiceTable() {
           </tbody>
         </Table>
       </Sheet>
-      <Box
+      {/* <Box
         className="Pagination-laptopUp"
         sx={{
           pt: 2,
@@ -400,7 +400,7 @@ export default function ServiceTable() {
         >
           Next
         </Button>
-      </Box>
+      </Box> */}
     </React.Fragment>
   );
 }

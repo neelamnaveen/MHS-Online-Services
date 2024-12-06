@@ -235,7 +235,7 @@ export default function TicketTable() {
         className="TicketTableContainer"
         variant="outlined"
         sx={{
-          display: { xs: 'none', sm: 'initial' },
+          display: { xs: 'flex', sm: 'initial' },
           width: '100%',
           borderRadius: 'sm',
           flexShrink: 1,
@@ -419,12 +419,12 @@ export default function TicketTable() {
           gap: 1,
           [`& .${iconButtonClasses.root}`]: { borderRadius: '50%' },
           display: {
-            xs: 'none',
+            xs: 'flex',
             md: 'flex',
           },
         }}
       >
-        <Button
+        {/* <Button
           size="sm"
           variant="outlined"
           color="neutral"
@@ -453,7 +453,7 @@ export default function TicketTable() {
           endDecorator={<KeyboardArrowRightIcon />}
         >
           Next
-        </Button>
+        </Button> */}
       </Box>
     </React.Fragment>
   );

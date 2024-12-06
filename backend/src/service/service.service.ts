@@ -14,6 +14,12 @@ export class ServiceService {
         return createdService.save();
     }
 
+    async deleteService(id: string): Promise<string> {
+        await this.serviceModel.deleteOne({_id:id}).exec();
+
+        return "Deletion succeeded"
+    }
+
     async updateServiceById(id: string, updateServiceDto: UpdateServiceDto): Promise<Service> {
         const updatedService = await this.serviceModel.findByIdAndUpdate(id, updateServiceDto, { new: true }).exec();
         if (!updatedService) {

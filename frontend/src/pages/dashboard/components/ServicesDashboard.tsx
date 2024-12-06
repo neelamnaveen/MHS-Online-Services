@@ -39,7 +39,7 @@ export default function ServicesDashboard({setStep}: any) {
   }, []);
 
   return (
-    <Grid container spacing={2} sx={{ flexGrow: 1 }}>
+    <Grid container spacing={2} sx={{ flexGrow: 1, alignSelf: "center", justifyContent: "center" }}>
       <>
         {services.map((serv) => {
           return (
