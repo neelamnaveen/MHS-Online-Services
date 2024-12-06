@@ -17,6 +17,7 @@ import {
   Sheet,
   Checkbox,
   Textarea,
+  Stack,
 } from "@mui/joy";
 import IconButton, { iconButtonClasses } from "@mui/joy/IconButton";
 
@@ -183,14 +184,16 @@ export default function TicketTable() {
   async function updateTicketHandler(id: string, status: string) {
     try {
       const data = {
-        status: status
+        status: status,
       };
 
       await axios.put(`${process.env.REACT_APP_API_URL}/ticket/${id}`, data);
       alert("Ticket updated successfully ");
 
       window.location.reload();
-    } catch (error) { alert(error) }
+    } catch (error) {
+      alert(error);
+    }
   }
 
   return (
@@ -314,7 +317,7 @@ export default function TicketTable() {
               <th style={{ width: 120, padding: '12px 6px' }}>Place</th>
               <th style={{ width: 120, padding: '12px 6px' }}>Comments</th> */}
               <th style={{ width: 120, padding: "12px 6px" }}>Contact</th>
-              <th style={{ width: 320, padding: "12px 6px" }}>Status</th>
+              <th style={{ width: 180, padding: "12px 6px" }}>Status</th>
               {/* <th style={{ width: 120, padding: "12px 6px" }}>Update</th> */}
             </tr>
           </thead>
@@ -354,24 +357,26 @@ export default function TicketTable() {
                       updateTicketHandler(row._id, formElements.status.value);
                     }}
                   >
-                    <Textarea
-                      name="status"
-                      required
-                      minRows={1}
-                      placeholder={row.status}
-                    />
-                    <Button
-                      type="submit"
-                      variant="outlined"
-                      color="success"
-                      startDecorator={<Edit />}
-                      // onClick={(evt) =>
-                      //   updateTicketHandler(evt)
-                      // }
-                      size="sm"
-                    ></Button>
+                    <Stack direction="row" sx={{ gap: 1 }}>
+                      <Textarea
+                        name="status"
+                        required
+                        minRows={1}
+                        placeholder={row.status}
+                      />
+                      <Button
+                        type="submit"
+                        variant="plain"
+                        color="success"
+                        startDecorator={<Edit />}
+                        // onClick={(evt) =>
+                        //   updateTicketHandler(evt)
+                        // }
+                        size="sm"
+                      ></Button>
+                    </Stack>
                   </form>
-                </td>                
+                </td>
               </tr>
             ))}
           </tbody>
