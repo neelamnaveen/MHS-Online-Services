@@ -25,7 +25,7 @@ import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import SearchIcon from "@mui/icons-material/Search";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Edit } from "@mui/icons-material";
+import { Edit, More } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -196,6 +196,22 @@ export default function TicketTable() {
     }
   }
 
+  function moreUserDetails(row: any){
+    delete row.__v;
+    delete row._id;
+    delete row.email;
+    delete row.date;
+    delete row.typeOfService;
+    delete row.status;
+
+    var output = '';
+    for (var entry in row) {
+      output += entry + " : " + row[entry] + '\n';
+    }
+    alert(output);
+    return ""
+  }
+
   return (
     <React.Fragment>
       <Sheet
@@ -317,7 +333,7 @@ export default function TicketTable() {
               <th style={{ width: 120, padding: '12px 6px' }}>Place</th>
               <th style={{ width: 120, padding: '12px 6px' }}>Comments</th> */}
               <th style={{ width: 120, padding: "12px 6px" }}>Contact</th>
-              <th style={{ width: 180, padding: "12px 6px" }}>Status</th>
+              <th style={{ width: 300, padding: "12px 6px" }}>Status</th>
               {/* <th style={{ width: 120, padding: "12px 6px" }}>Update</th> */}
             </tr>
           </thead>
@@ -369,11 +385,16 @@ export default function TicketTable() {
                         variant="plain"
                         color="success"
                         startDecorator={<Edit />}
-                        // onClick={(evt) =>
-                        //   updateTicketHandler(evt)
-                        // }
                         size="sm"
-                      ></Button>
+                      />
+                      <Button
+                        variant="plain"
+                        color="success"
+                        startDecorator={<More />}
+                        size="sm"
+                        onClick={()=>moreUserDetails(row)}
+                      >
+                      </Button>
                     </Stack>
                   </form>
                 </td>
