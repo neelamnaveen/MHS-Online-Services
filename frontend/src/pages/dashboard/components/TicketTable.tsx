@@ -1,26 +1,47 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import * as React from 'react';
-import { ColorPaletteProp } from '@mui/joy/styles';
-import { Typography, Avatar, Box, Button, Chip, Divider, FormControl, FormLabel, Link, Input, Modal, ModalDialog, ModalClose, Select, Option, Table, Sheet, Checkbox } from '@mui/joy';
-import IconButton, { iconButtonClasses } from '@mui/joy/IconButton';
+import * as React from "react";
+import { ColorPaletteProp } from "@mui/joy/styles";
+import {
+  Typography,
+  Avatar,
+  Box,
+  Button,
+  Chip,
+  Divider,
+  FormControl,
+  FormLabel,
+  Link,
+  Input,
+  Modal,
+  ModalDialog,
+  ModalClose,
+  Select,
+  Option,
+  Table,
+  Sheet,
+  Checkbox,
+  TextField,
+  Textarea,
+} from "@mui/joy";
+import IconButton, { iconButtonClasses } from "@mui/joy/IconButton";
 // import Menu from '@mui/joy/Menu';
 // import MenuButton from '@mui/joy/MenuButton';
 // import MenuItem from '@mui/joy/MenuItem';
 // import Dropdown from '@mui/joy/Dropdown';
 
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import SearchIcon from '@mui/icons-material/Search';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
-import BlockIcon from '@mui/icons-material/Block';
-import AutorenewRoundedIcon from '@mui/icons-material/AutorenewRounded';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Add, Edit } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import SearchIcon from "@mui/icons-material/Search";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
+import BlockIcon from "@mui/icons-material/Block";
+import AutorenewRoundedIcon from "@mui/icons-material/AutorenewRounded";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+import MoreHorizRoundedIcon from "@mui/icons-material/MoreHorizRounded";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { Add, Edit } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -32,16 +53,16 @@ function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   return 0;
 }
 
-type Ticket = 'asc' | 'desc';
+type Ticket = "asc" | "desc";
 
 function getComparator<Key extends keyof any>(
   ticket: Ticket,
-  orderBy: Key,
+  orderBy: Key
 ): (
   a: { [key in Key]: number | string },
-  b: { [key in Key]: number | string },
+  b: { [key in Key]: number | string }
 ) => number {
-  return ticket === 'desc'
+  return ticket === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
@@ -50,7 +71,10 @@ function getComparator<Key extends keyof any>(
 // stableSort() brings sort stability to non-modern browsers (notably IE11). If you
 // only support modern browsers you can replace stableSort(exampleArray, exampleComparator)
 // with exampleArray.slice().sort(exampleComparator)
-function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) {
+function stableSort<T>(
+  array: readonly T[],
+  comparator: (a: T, b: T) => number
+) {
   const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
   stabilizedThis.sort((a, b) => {
     const ticket = comparator(a[0], b[0]);
@@ -82,7 +106,6 @@ function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) 
 //   );
 // }
 
-
 interface ITicket {
   email: string;
   _id: string;
@@ -94,37 +117,42 @@ interface ITicket {
   comments: string;
 }
 
-
-
 export default function TicketTable() {
   const navigate = useNavigate();
 
-  const [ticket, setTicket] = React.useState<Ticket>('desc');
+  const [ticket, setTicket] = React.useState<Ticket>("desc");
   const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [open, setOpen] = React.useState(false);
 
   const [loading, setLoading] = useState(true);
-  const [rows, setRows] = useState<ITicket[]>([])
+  const [rows, setRows] = useState<ITicket[]>([]);
+
+  const [newStatus, setNewStatus] = useState<string>("");
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const { data: response } = await axios.get(`${process.env.REACT_APP_API_URL}/ticket`);
+        const { data: response } = await axios.get(
+          `${process.env.REACT_APP_API_URL}/ticket`
+        );
         setRows(response);
       } catch (error: any) {
         console.error(error.message);
       }
       setLoading(false);
-    }
+    };
 
     fetchData();
   }, []);
 
   async function approvalHandler(data: any) {
     try {
-      const { data: response } = await axios.put(`${process.env.REACT_APP_API_URL}/ticket`, data);
-      alert("Ticket approved ")
+      const { data: response } = await axios.put(
+        `${process.env.REACT_APP_API_URL}/ticket`,
+        data
+      );
+      alert("Ticket approved ");
       navigate("/tickets");
     } catch (error: any) {
       console.error(error.message);
@@ -137,7 +165,7 @@ export default function TicketTable() {
         <Select
           size="sm"
           placeholder="Filter by status"
-          slotProps={{ button: { sx: { whiteSpace: 'nowrap' } } }}
+          slotProps={{ button: { sx: { whiteSpace: "nowrap" } } }}
         >
           <Option value="paid">Paid</Option>
           <Option value="pending">Pending</Option>
@@ -168,8 +196,17 @@ export default function TicketTable() {
       </FormControl>
     </React.Fragment>
   );
-  function updateTicketHandler(arg0: { _id: string; status: string; }): void {
-    alert("This feature is not available currently")
+  async function updateTicketHandler(id: string, status: string) {
+    try {
+      const data = {
+        status: status
+      };
+
+      await axios.put(`${process.env.REACT_APP_API_URL}/ticket/${id}`, data);
+      alert("Ticket updated successfully ");
+      
+      window.location.reload();
+    } catch (error) { alert(error) }
   }
 
   return (
@@ -177,7 +214,7 @@ export default function TicketTable() {
       <Sheet
         className="SearchAndFilters-mobile"
         sx={{
-          display: { xs: 'flex', sm: 'none' },
+          display: { xs: "flex", sm: "none" },
           my: 1,
           gap: 1,
         }}
@@ -203,7 +240,7 @@ export default function TicketTable() {
               Filters
             </Typography>
             <Divider sx={{ my: 2 }} />
-            <Sheet sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <Sheet sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
               {renderFilters()}
               <Button color="primary" onClick={() => setOpen(false)}>
                 Submit
@@ -215,19 +252,23 @@ export default function TicketTable() {
       <Box
         className="SearchAndFilters-tabletUp"
         sx={{
-          borderRadius: 'sm',
+          borderRadius: "sm",
           py: 2,
-          display: { xs: 'none', sm: 'flex' },
-          flexWrap: 'wrap',
+          display: { xs: "none", sm: "flex" },
+          flexWrap: "wrap",
           gap: 1.5,
-          '& > *': {
-            minWidth: { xs: '120px', md: '160px' },
+          "& > *": {
+            minWidth: { xs: "120px", md: "160px" },
           },
         }}
       >
         <FormControl sx={{ flex: 1 }} size="sm">
           <FormLabel>Search for ticket</FormLabel>
-          <Input size="sm" placeholder="Search" startDecorator={<SearchIcon />} />
+          <Input
+            size="sm"
+            placeholder="Search"
+            startDecorator={<SearchIcon />}
+          />
         </FormControl>
         {renderFilters()}
       </Box>
@@ -235,11 +276,11 @@ export default function TicketTable() {
         className="TicketTableContainer"
         variant="outlined"
         sx={{
-          display: { xs: 'flex', sm: 'initial' },
-          width: '100%',
-          borderRadius: 'sm',
+          display: { xs: "flex", sm: "initial" },
+          width: "100%",
+          borderRadius: "sm",
           flexShrink: 1,
-          overflow: 'auto',
+          overflow: "auto",
           minHeight: 0,
         }}
       >
@@ -248,16 +289,20 @@ export default function TicketTable() {
           stickyHeader
           hoverRow
           sx={{
-            '--TableCell-headBackground': 'var(--joy-palette-background-level1)',
-            '--Table-headerUnderlineThickness': '1px',
-            '--TableRow-hoverBackground': 'var(--joy-palette-background-level1)',
-            '--TableCell-paddingY': '4px',
-            '--TableCell-paddingX': '8px',
+            "--TableCell-headBackground":
+              "var(--joy-palette-background-level1)",
+            "--Table-headerUnderlineThickness": "1px",
+            "--TableRow-hoverBackground":
+              "var(--joy-palette-background-level1)",
+            "--TableCell-paddingY": "4px",
+            "--TableCell-paddingX": "8px",
           }}
         >
           <thead>
             <tr>
-              <th style={{ width: 48, textAlign: 'center', padding: '12px 6px' }}>
+              <th
+                style={{ width: 48, textAlign: "center", padding: "12px 6px" }}
+              >
                 <Checkbox
                   size="sm"
                   indeterminate={
@@ -266,15 +311,15 @@ export default function TicketTable() {
                   checked={selected.length === rows.length}
                   onChange={(event) => {
                     setSelected(
-                      event.target.checked ? rows.map((row) => row._id) : [],
+                      event.target.checked ? rows.map((row) => row._id) : []
                     );
                   }}
                   color={
                     selected.length > 0 || selected.length === rows.length
-                      ? 'primary'
+                      ? "primary"
                       : undefined
                   }
-                  sx={{ verticalAlign: 'text-bottom' }}
+                  sx={{ verticalAlign: "text-bottom" }}
                 />
               </th>
               {/* <th style={{ width: 120, padding: '12px 6px' }}>
@@ -296,33 +341,35 @@ export default function TicketTable() {
                   Date
                 </Link>
               </th> */}
-              <th style={{ width: 140, padding: '12px 6px' }}>Date</th>
-              <th style={{ width: 140, padding: '12px 6px' }}>Type of service</th>
+              <th style={{ width: 140, padding: "12px 6px" }}>Date</th>
+              <th style={{ width: 140, padding: "12px 6px" }}>
+                Type of service
+              </th>
               {/* <th style={{ width: 140, padding: '12px 6px' }}>Image</th>
               <th style={{ width: 120, padding: '12px 6px' }}>Place</th>
               <th style={{ width: 120, padding: '12px 6px' }}>Comments</th> */}
-              <th style={{ width: 120, padding: '12px 6px' }}>Contact</th>
-              <th style={{ width: 120, padding: '12px 6px' }}>Status</th>
-              <th style={{ width: 120, padding: '12px 6px' }}>Update</th>
+              <th style={{ width: 120, padding: "12px 6px" }}>Contact</th>
+              <th style={{ width: 320, padding: "12px 6px" }}>Status</th>
+              {/* <th style={{ width: 120, padding: "12px 6px" }}>Update</th> */}
             </tr>
           </thead>
           <tbody>
-            {stableSort(rows, getComparator(ticket, '_id')).map((row) => (
+            {stableSort(rows, getComparator(ticket, "_id")).map((row) => (
               <tr key={row._id}>
-                <td style={{ textAlign: 'center', width: 120 }}>
+                <td style={{ textAlign: "center", width: 120 }}>
                   <Checkbox
                     size="sm"
                     checked={selected.includes(row._id)}
-                    color={selected.includes(row._id) ? 'primary' : undefined}
+                    color={selected.includes(row._id) ? "primary" : undefined}
                     onChange={(event) => {
                       setSelected((ids) =>
                         event.target.checked
                           ? ids.concat(row._id)
-                          : ids.filter((itemId) => itemId !== row._id),
+                          : ids.filter((itemId) => itemId !== row._id)
                       );
                     }}
-                    slotProps={{ checkbox: { sx: { textAlign: 'left' } } }}
-                    sx={{ verticalAlign: 'text-bottom' }}
+                    slotProps={{ checkbox: { sx: { textAlign: "left" } } }}
+                    sx={{ verticalAlign: "text-bottom" }}
                   />
                 </td>
                 {/* <td>
@@ -352,19 +399,33 @@ export default function TicketTable() {
                   <Typography level="body-xs">{row.email}</Typography>
                 </td>
                 <td>
-                  <Typography level="body-xs">{row.status}</Typography>
-                </td>
-                <td>
-                  <Button
-                    variant="outlined"
-                    color="success"
-                    startDecorator={<Edit />}
-                    onClick={() => updateTicketHandler({_id:row._id, status:"Started"})}
-                    size= 'sm'
+                  <form
+                    onSubmit={(event) => {
+                      // event.preventDefault();
+                      const formElements = event.currentTarget.elements as any;
+                      updateTicketHandler(row._id, formElements.status.value);
+                    }}
                   >
-                    Change
-                  </Button>
+                    <Textarea
+                      name="status"
+                      required
+                      minRows={1}
+                      placeholder={row.status}
+                    />
+                    <Button
+                      type="submit"
+                      variant="outlined"
+                      color="success"
+                      startDecorator={<Edit />}
+                      // onClick={(evt) =>
+                      //   updateTicketHandler(evt)
+                      // }
+                      size="sm"
+                    ></Button>
+                  </form>
                 </td>
+
+                <td></td>
                 {/* {row.status === "approvalPending"  ? (
                   <td>
                     <Button
@@ -417,10 +478,10 @@ export default function TicketTable() {
         sx={{
           pt: 2,
           gap: 1,
-          [`& .${iconButtonClasses.root}`]: { borderRadius: '50%' },
+          [`& .${iconButtonClasses.root}`]: { borderRadius: "50%" },
           display: {
-            xs: 'flex',
-            md: 'flex',
+            xs: "flex",
+            md: "flex",
           },
         }}
       >
