@@ -119,9 +119,9 @@ export default function ServiceTable() {
 
   async function deleteServiceHandler(id: string) {
     try {
-      // const { data: response } = await axios.delete(`${process.env.REACT_APP_API_URL}/service`, id);
+      await axios.delete(`${process.env.REACT_APP_API_URL}/service/${id}`);
       alert("Service deleted ")
-      navigate("/services");
+      window.location.reload()
     } catch (error: any) {
       console.error(error.message);
     }
@@ -336,13 +336,12 @@ export default function ServiceTable() {
                 {/* </td> */}
                 <td>
                   <Button
-                    variant="solid"
-                    color="success"
+                    variant="plain"
+                    color="danger"
                     startDecorator={<Delete />}
                     onClick={() => deleteServiceHandler(row._id)}
-                    size= 'sm'
+                    size= 'md'
                   >
-                    Delete
                   </Button>
                 </td>
                 {/* <td>

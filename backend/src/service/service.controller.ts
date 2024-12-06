@@ -31,8 +31,8 @@ export class ServiceController {
     return this.serviceService.getAllServices();
   }
 
-  @Delete('')
-  async deleteService(@Body() serviceData) {
-    return this.serviceService.deleteService(serviceData);
+  @Delete(':id')
+  async deleteService(@Param('id') id: string) {
+    return this.serviceService.deleteService(id);
   }
 }
